@@ -1,0 +1,9 @@
+x$origem = "\\192.168.1.8\Backup Projetos"
+$destino = "s3://bba-backup-projetos"
+$mailOrigem = "backup@somadatta.com.br"
+$mailDestino = "infra@somadatta.com.br"
+
+aws.exe s3 sync $origem $destino > C:\device-less\log.txt
+date >> C:\device-less\log.txt
+$mail = Get-Content -Path C:\device-less\log.txt
+aws ses send-email --from $mailOrigem --to $mailDestino --subject "Backup Dados" --text "$mail"
